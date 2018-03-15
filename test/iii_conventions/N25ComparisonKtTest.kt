@@ -22,6 +22,12 @@ class N25ComparisonKtTest {
         assertTrue("The date ${first.s} should be after ${second.s}", first > second)
     }
 
+    @Test fun testMinorInequality() {
+        val first = MyDate(2014, 10, 11)
+        val second = MyDate(2014, 11, 10)
+        assertTrue(first < second)
+    }
+
     /* If you declare 'compareTo' as an extension function, remove this one to make the code compile */
     operator fun MyDate.compareTo(other: MyDate): Int = todoTask25()
 }
