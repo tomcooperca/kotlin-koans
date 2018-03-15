@@ -24,7 +24,5 @@ fun task10(): List<Int> {
         }
     }
     Collections.sort(arrayList, comparatorFull)
-//    Collections.sort(arrayList, { param1, param2 -> param2 - param1 })
-//    Collections.sort(arrayList, { param1: Int, param2: Int -> param2 - param1 })
     return arrayList
 }
