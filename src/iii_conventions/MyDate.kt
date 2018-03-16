@@ -12,7 +12,21 @@ operator fun MyDate.rangeTo(other: MyDate): DateRange {
     return DateRange(this, other)
 }
 
+operator fun MyDate.plus(timeInterval: TimeInterval): MyDate {
+    return this.addTimeIntervals(timeInterval, 1)
+}
 
+operator fun MyDate.plus(repeatedTimeInterval: RepeatedTimeInterval): MyDate {
+    var newDate: MyDate = this
+    for (int in 1..repeatedTimeInterval.number) {
+        newDate = newDate.plus(repeatedTimeInterval.timeInterval)
+    }
+    return newDate
+}
+
+operator fun MyDate.times(other: MyDate): MyDate {
+    TODO()
+}
 
 enum class TimeInterval {
     DAY,
@@ -20,13 +34,19 @@ enum class TimeInterval {
     YEAR
 }
 
+operator fun TimeInterval.times(number: Int): RepeatedTimeInterval {
+    return RepeatedTimeInterval(this, number)
+}
+
+data class RepeatedTimeInterval(val timeInterval: TimeInterval, val number: Int)
+
 class DateRange(private val start: MyDate, private val endInclusive: MyDate) : Iterable<MyDate> {
-    operator fun contains(date: MyDate) : Boolean {
+    operator fun contains(date: MyDate): Boolean {
         return (this.start <= date) && (date <= endInclusive)
     }
 
     override fun iterator(): Iterator<MyDate> = object : Iterator<MyDate> {
-        var current : MyDate = start
+        var current: MyDate = start
 
         override fun hasNext(): Boolean {
             return current <= endInclusive
