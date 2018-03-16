@@ -12,14 +12,33 @@ operator fun MyDate.rangeTo(other: MyDate): DateRange {
     return DateRange(this, other)
 }
 
+
+
 enum class TimeInterval {
     DAY,
     WEEK,
     YEAR
 }
 
-class DateRange(private val start: MyDate, private val endInclusive: MyDate) {
+class DateRange(private val start: MyDate, private val endInclusive: MyDate) : Iterable<MyDate> {
     operator fun contains(date: MyDate) : Boolean {
         return (this.start <= date) && (date <= endInclusive)
+    }
+
+    override fun iterator(): Iterator<MyDate> = object : Iterator<MyDate> {
+        var current : MyDate = start
+
+        override fun hasNext(): Boolean {
+            return current <= endInclusive
+        }
+
+        override fun next(): MyDate {
+            if (!hasNext()) {
+                throw NoSuchElementException()
+            }
+            val result = current
+            current = current.nextDay()
+            return result
+        }
     }
 }
